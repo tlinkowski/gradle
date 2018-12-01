@@ -35,6 +35,10 @@ This feature was contributed by [Alex Saveau](https://github.com/SUPERCILEX).
 
 This release includes a lazy [`MapProperty`](javadoc/org/gradle/api/provider/MapProperty.html) type which allows efficient configuration of maps in the Gradle model.
 
+### Allow a convention to be specified for a collection property
+
+A `convention` method is now available for `ListProperty` and `SetProperty` types, which allows the <em>convention</em> for a property to be specified. The convention is the value that is used when no value has been explicitly configured for the property.
+
 ## Promoted features
 
 Promoted features are features that were incubating in previous versions of Gradle but are now supported and subject to backwards compatibility.
