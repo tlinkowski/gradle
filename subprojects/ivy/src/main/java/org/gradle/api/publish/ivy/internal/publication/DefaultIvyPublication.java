@@ -48,6 +48,7 @@ import org.gradle.api.model.ObjectFactory;
 import org.gradle.api.publish.internal.CompositePublicationArtifactSet;
 import org.gradle.api.publish.internal.DefaultPublicationArtifactSet;
 import org.gradle.api.publish.internal.PublicationArtifactSet;
+import org.gradle.api.publish.internal.versionmapping.VersionMappingStrategyInternal;
 import org.gradle.api.publish.ivy.IvyArtifact;
 import org.gradle.api.publish.ivy.IvyConfigurationContainer;
 import org.gradle.api.publish.ivy.IvyModuleDescriptorSpec;
@@ -464,6 +465,11 @@ public class DefaultIvyPublication implements IvyPublicationInternal {
                 return publishedUrl;
             }
         };
+    }
+
+    @Override
+    public VersionMappingStrategyInternal getVersionMappingStrategy() {
+        return null;
     }
 
     @Override
