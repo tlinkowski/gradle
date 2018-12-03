@@ -21,6 +21,7 @@ import com.google.common.collect.Maps;
 import org.gradle.api.Action;
 import org.gradle.api.artifacts.ResolvableDependencies;
 import org.gradle.api.artifacts.component.ComponentArtifactIdentifier;
+import org.gradle.api.internal.GradleInternal;
 import org.gradle.api.internal.artifacts.ivyservice.resolveengine.artifact.BuildableSingleResolvedArtifactSet;
 import org.gradle.api.internal.artifacts.ivyservice.resolveengine.artifact.CompositeResolvedArtifactSet;
 import org.gradle.api.internal.artifacts.ivyservice.resolveengine.artifact.ResolvedArtifactSet;
@@ -32,6 +33,11 @@ import java.util.function.Function;
 
 public class DefaultTransformationNodeFactory implements TransformationNodeFactory {
     private final Map<ArtifactTransformKey, TransformationNode> transformations = Maps.newConcurrentMap();
+    private final GradleInternal gradle;
+
+    public DefaultTransformationNodeFactory(GradleInternal gradle) {
+        this.gradle = gradle;
+    }
 
     @Override
     public Collection<TransformationNode> getOrCreate(ResolvedArtifactSet artifactSet, Transformation transformation, ResolvableDependencies resolvableDependencies, ExtraExecutionGraphDependenciesResolverFactory extraExecutionGraphDependenciesResolverFactory) {
@@ -68,7 +74,7 @@ public class DefaultTransformationNodeFactory implements TransformationNodeFacto
         if (transformationNode == null) {
             if (transformationChain.size() == 1) {
                 ArtifactTransformDependenciesProvider dependenciesProvider = DefaultArtifactTransformDependenciesProvider.create(singleArtifactSet.getArtifactId(), resolvableDependencies);
-                transformationNode = TransformationNode.initial(transformationChain.get(0), singleArtifactSet, dependenciesProvider, executionGraphDependenciesResolver);
+                transformationNode = TransformationNode.initial(transformationChain.get(0), singleArtifactSet, dependenciesProvider, executionGraphDependenciesResolver, gradle.getIdentityPath());
             } else {
                 TransformationNode previous = getOrCreateInternal(singleArtifactSet, transformationChain.subList(0, transformationChain.size() - 1), resolvableDependencies, executionGraphDependenciesResolver);
                 transformationNode = TransformationNode.chained(transformationChain.get(transformationChain.size() - 1), previous);
