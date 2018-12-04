@@ -16,10 +16,8 @@
 
 package org.gradle.api.internal.artifacts.transform;
 
-import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.Iterables;
 import org.gradle.api.Action;
-import org.gradle.api.Task;
 import org.gradle.api.artifacts.ResolveException;
 import org.gradle.api.artifacts.result.ResolvedArtifactResult;
 import org.gradle.api.internal.artifacts.ivyservice.DefaultLenientConfiguration;
@@ -68,8 +66,8 @@ public abstract class TransformationNode extends Node implements TransformationN
     }
 
     @Override
-    public void collectTransformationsInto(ImmutableCollection.Builder<TransformationNodeIdentifier> builder) {
-        builder.add(this);
+    public void accept(Visitor visitor) {
+        visitor.visitTransformation(this);
     }
 
     public abstract void execute(BuildOperationExecutor buildOperationExecutor, ArtifactTransformListener transformListener);
@@ -100,10 +98,6 @@ public abstract class TransformationNode extends Node implements TransformationN
 
     @Override
     public void prepareForExecution() {
-    }
-
-    @Override
-    public void collectTaskInto(ImmutableCollection.Builder<Task> builder) {
     }
 
     @Override
