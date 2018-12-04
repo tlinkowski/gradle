@@ -18,6 +18,7 @@ package org.gradle.api.internal.artifacts.configurations;
 import org.gradle.api.artifacts.Configuration;
 import org.gradle.api.artifacts.ExcludeRule;
 import org.gradle.api.internal.artifacts.ResolveContext;
+import org.gradle.api.internal.artifacts.transform.ExtraExecutionGraphDependenciesResolverFactory;
 import org.gradle.api.internal.attributes.AttributeContainerInternal;
 import org.gradle.util.Path;
 
@@ -61,4 +62,6 @@ public interface ConfigurationInternal extends ResolveContext, Configuration, De
      * superconfigurations.
      */
     Set<ExcludeRule> getAllExcludeRules();
+
+    ExtraExecutionGraphDependenciesResolverFactory getDependenciesResolver();
 }
