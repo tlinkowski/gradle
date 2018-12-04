@@ -17,7 +17,6 @@
 package org.gradle.integtests.tooling.r51
 
 import org.gradle.api.Action
-import org.gradle.api.internal.CollectionCallbackActionDecorator
 import org.gradle.integtests.tooling.fixture.ProgressEvents
 import org.gradle.integtests.tooling.fixture.TargetGradleVersion
 import org.gradle.integtests.tooling.fixture.ToolingApiSpecification
@@ -303,9 +302,7 @@ class ProjectConfigurationProgressEventCrossVersionSpec extends ToolingApiSpecif
         """
 
         when:
-        runBuild("tasks", EnumSet.of(OperationType.PROJECT_CONFIGURATION)) {
-            it.withArguments("-D${CollectionCallbackActionDecorator.CALLBACK_EXECUTION_BUILD_OPS_TOGGLE}=true")
-        }
+        runBuild("tasks", EnumSet.of(OperationType.PROJECT_CONFIGURATION))
 
         then:
         def pluginResults = getPluginConfigurationOperationResult(":").getPluginApplicationResults()
@@ -338,9 +335,7 @@ class ProjectConfigurationProgressEventCrossVersionSpec extends ToolingApiSpecif
         """
 
         when:
-        runBuild("tasks", EnumSet.of(OperationType.PROJECT_CONFIGURATION)) {
-            it.withArguments("-D${CollectionCallbackActionDecorator.CALLBACK_EXECUTION_BUILD_OPS_TOGGLE}=true")
-        }
+        runBuild("tasks", EnumSet.of(OperationType.PROJECT_CONFIGURATION))
 
         then:
         def pluginResults = getPluginConfigurationOperationResult(":").getPluginApplicationResults()
