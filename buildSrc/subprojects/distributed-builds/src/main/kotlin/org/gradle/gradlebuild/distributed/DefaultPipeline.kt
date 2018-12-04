@@ -25,11 +25,11 @@ import org.gradle.gradlebuild.distributed.model.Stage
 
 object DefaultPipeline {
     private
-    val linuxJava11 = BuildEnvironment("Linux", "Open JDK 11", listOf("Linux Agents"), mapOf("jvm" to "opdenJdk-11"))
+    val linuxJava11 = BuildEnvironment("Linux", "Open JDK 11")
     private
-    val linuxJava8 = BuildEnvironment("Linux", "Open JDK 8", listOf("Linux Agents"), mapOf("jvm" to "opdenJdk-8"))
+    val linuxJava8 = BuildEnvironment("Linux", "Open JDK 8")
     private
-    val windowsJava8 = BuildEnvironment("Windows 7", "Open JDK 8", listOf("Widows Agents"), mapOf("jvm" to "opdenJdk-8"))
+    val windowsJava8 = BuildEnvironment("Windows 7", "Open JDK 8")
 
     private
     val compileAll = BuildType("compileAllBuild", listOf(":createBuildReceipt", "compileAll"),
@@ -39,7 +39,7 @@ object DefaultPipeline {
         ":docs:check", ":distributions:checkBinaryCompatibility", ":docs:javadocAll", ":architectureTest:test"),
         environmentSpecific = false)
     private
-    val quickTest = BuildType("quickTest", listOf("integTest", "crossVersionTest")) //TODO add 'test'
+    val quickTest = BuildType("quickTest", listOf("integTest", "crossVersionTest"))
 
     private
     val compile = Stage("Compile", "Compile all code as preparation for everything else", listOf(

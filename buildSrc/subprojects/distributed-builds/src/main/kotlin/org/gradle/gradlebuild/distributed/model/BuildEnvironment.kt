@@ -19,9 +19,7 @@ package org.gradle.gradlebuild.distributed.model
 
 data class BuildEnvironment(
     val os: String,
-    val vm: String,
-    val agentPools: List<String>,
-    val envVars: Map<String, String> = emptyMap()
+    val vm: String
 ) {
     fun asEnvironmentSpecificTaskName(baseTask: String) = "$baseTask$os$vm".replace(" ", "")
 }
