@@ -45,6 +45,12 @@ open class DistributionTest : Test() {
     }
 
     @Internal
+    var expectedOS = ""
+
+    @Internal
+    var expectedVM = ""
+
+    @Internal
     val binaryDistributions = BinaryDistributions(project.objects)
 
     @Internal

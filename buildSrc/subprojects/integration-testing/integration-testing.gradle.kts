@@ -6,6 +6,7 @@ dependencies {
     implementation(project(":versioning"))
     implementation(project(":build"))
     implementation(project(":packaging"))
+    implementation(project(":distributedBuilds"))
     testCompile("junit:junit:4.12")
 }
 

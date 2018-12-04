@@ -11,6 +11,8 @@ import accessors.eclipse
 import accessors.groovy
 import accessors.idea
 import accessors.java
+import org.gradle.api.GradleException
+import org.gradle.gradlebuild.distributed.DefaultPipeline
 
 import org.gradle.gradlebuild.java.AvailableJavaInstallations
 import org.gradle.plugins.ide.eclipse.EclipsePlugin
@@ -96,6 +98,27 @@ fun Project.createTestTask(name: String, executer: String, sourceSet: SourceSet,
         classpath = sourceSet.runtimeClasspath
         libsRepository.required = testType.libRepoRequired
         extraConfig.execute(this)
+    }.also {
+        DefaultPipeline.pipeline.allStages().map { it.buildInvocation }.flatten().map { it.buildEnvironment }.toSet().forEach { environment ->
+            tasks.register(environment.asEnvironmentSpecificTaskName(name), IntegrationTest::class) {
+                description = "Runs ${testType.prefix} with $executer executer"
+                systemProperties["org.gradle.integtest.executer"] = executer
+                addDebugProperties()
+                testClassesDirs = sourceSet.output.classesDirs
+                classpath = sourceSet.runtimeClasspath
+                libsRepository.required = testType.libRepoRequired
+                extraConfig.execute(this)
+                expectedOS = environment.os
+                expectedVM = environment.vm
+            }.configure {
+                doFirst {
+                    val javaInstallation = inputs.properties.get("javaInstallation")
+                    if ((!expectedOS.isEmpty() && expectedOS != operatingSystem) || (!expectedVM.isEmpty() && expectedVM != javaInstallation)) {
+                        throw GradleException("This task needs to run on '$expectedOS $expectedVM' results need to be taken from cache (currently running on '$operatingSystem $javaInstallation')")
+                    }
+                }
+            }
+        }
     }
 
 
