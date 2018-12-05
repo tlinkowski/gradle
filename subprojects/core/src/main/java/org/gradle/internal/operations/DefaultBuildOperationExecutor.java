@@ -179,7 +179,9 @@ public class DefaultBuildOperationExecutor implements BuildOperationExecutor, St
             }
             LOGGER.debug("Completing Build operation '{}'", descriptor.getDisplayName());
 
-            progressLogger.completed(context.status, context.failure != null);
+            if (progressLogger != null) {
+                progressLogger.completed(context.status, context.failure != null);
+            }
             listener.finished(descriptor, new OperationFinishEvent(newOperation.getStartTime(), clock.getCurrentTime(), context.failure, context.result));
 
             assertParentRunning("Parent operation (%2$s) completed before this operation (%1$s).", descriptor, parent);
