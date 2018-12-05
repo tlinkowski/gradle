@@ -32,6 +32,7 @@ import org.gradle.internal.typeconversion.NotationParserBuilder
 import org.gradle.test.fixtures.file.TestNameTestDirectoryProvider
 import org.gradle.util.UsesNativeServices
 import org.junit.Rule
+import spock.lang.Ignore
 import spock.lang.Specification
 
 import static org.gradle.api.internal.artifacts.dsl.dependencies.DependencyFactory.ClassPathNotation.*
@@ -68,6 +69,7 @@ class DependencyClassPathNotationConverterTest extends Specification {
         shadedJarFactory.get(RuntimeShadedJarType.API, _) >> shadedApiJar
     }
 
+    @Ignore
     def "parses classpath literal"() {
         when:
         def out = parse(GRADLE_API)

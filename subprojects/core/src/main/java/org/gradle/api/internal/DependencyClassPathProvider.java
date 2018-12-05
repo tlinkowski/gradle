@@ -26,6 +26,7 @@ import java.util.Arrays;
 import static org.gradle.api.internal.artifacts.dsl.dependencies.DependencyFactory.ClassPathNotation.GRADLE_API;
 import static org.gradle.api.internal.artifacts.dsl.dependencies.DependencyFactory.ClassPathNotation.GRADLE_TEST_KIT;
 import static org.gradle.api.internal.artifacts.dsl.dependencies.DependencyFactory.ClassPathNotation.LOCAL_GROOVY;
+import static org.gradle.api.internal.artifacts.dsl.dependencies.DependencyFactory.ClassPathNotation.GRADLE_KOTLIN_DSL_API;
 
 public class DependencyClassPathProvider implements ClassPathProvider {
     private final ModuleRegistry moduleRegistry;
@@ -47,6 +48,9 @@ public class DependencyClassPathProvider implements ClassPathProvider {
         }
         if (name.equals(LOCAL_GROOVY.name())) {
             return localGroovy();
+        }
+        if (name.equals(GRADLE_KOTLIN_DSL_API.name())) {
+            return gradleKotlinDslApi();
         }
         return null;
     }
@@ -77,5 +81,13 @@ public class DependencyClassPathProvider implements ClassPathProvider {
 
     private ClassPath localGroovy() {
         return moduleRegistry.getExternalModule("groovy-all").getClasspath();
+    }
+
+    private ClassPath gradleKotlinDslApi() {
+        ClassPath classpath = ClassPath.EMPTY;
+        for (String moduleName : Arrays.asList("gradle-kotlin-dsl", "annotations", "kotlin-reflect", "kotlin-stdlib", "kotlin-stdlib-common", "kotlin-stdlib-jdk7", "kotlin-stdlib-jdk8")) {
+            classpath = classpath.plus(moduleRegistry.getExternalModule(moduleName).getClasspath());
+        }
+        return classpath;
     }
 }
