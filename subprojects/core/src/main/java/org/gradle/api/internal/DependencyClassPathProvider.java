@@ -72,6 +72,7 @@ public class DependencyClassPathProvider implements ClassPathProvider {
         for (Module pluginModule : pluginModuleRegistry.getApiModules()) {
             classpath = classpath.plus(pluginModule.getClasspath());
         }
+        classpath = classpath.plus(gradleKotlinDslApi());
         return classpath;
     }
 
