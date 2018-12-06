@@ -16,6 +16,7 @@
 
 package org.gradle.performance.util
 
+import org.eclipse.jgit.lib.Repository
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder
 
 class Git {
@@ -33,10 +34,19 @@ class Git {
     private Git() {
         def repository = new FileRepositoryBuilder().findGitDir().build()
         try {
-            branchName = repository.branch
+            branchName = calculateBranchName(repository)
             commitId = repository.resolve(repository.fullBranch).name
         } finally {
             repository.close()
+        }
+    }
+
+    private static calculateBranchName(Repository repository) {
+        String branchFromEnv = System.getenv("BUILD_BRANCH")
+        if (branchFromEnv == null) {
+            return repository.branch
+        } else {
+            return branchFromEnv
         }
     }
 }

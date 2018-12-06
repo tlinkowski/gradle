@@ -44,7 +44,6 @@ object PropertyNames {
     const val performanceTestVerbose = "performanceTest.verbose"
     const val baselines = "org.gradle.performance.baselines"
     const val buildTypeId = "org.gradle.performance.buildTypeId"
-    const val branchName = "org.gradle.performance.branchName"
 
     const val teamCityUsername = "teamCityUsername"
     const val teamCityPassword = "teamCityPassword"
@@ -308,7 +307,7 @@ class PerformanceTestPlugin : Plugin<Project> {
             scenarioList = buildDir / Config.performanceTestScenarioListFileName
             buildTypeId = stringPropertyOrNull(PropertyNames.buildTypeId)
             workerTestTaskName = stringPropertyOrNull(PropertyNames.workerTestTaskName) ?: "fullPerformanceTest"
-            branchName = stringPropertyOrNull(PropertyNames.branchName)
+            branchName = System.getenv("BUILD_BRANCH")
             teamCityUrl = Config.teamCityUrl
             teamCityUsername = stringPropertyOrNull(PropertyNames.teamCityUsername)
             teamCityPassword = stringPropertyOrNull(PropertyNames.teamCityPassword)
