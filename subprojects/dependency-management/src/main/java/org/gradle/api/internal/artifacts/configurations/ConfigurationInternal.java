@@ -25,7 +25,11 @@ import org.gradle.util.Path;
 import java.util.Set;
 
 public interface ConfigurationInternal extends ResolveContext, Configuration, DependencyMetaDataProvider {
-    enum InternalState {UNRESOLVED, GRAPH_RESOLVED, ARTIFACTS_RESOLVED}
+    enum InternalState {
+        UNRESOLVED,
+        BUILD_DEPENDENCIES_RESOLVED,
+        GRAPH_RESOLVED,
+        ARTIFACTS_RESOLVED}
 
     @Override
     ResolutionStrategyInternal getResolutionStrategy();
